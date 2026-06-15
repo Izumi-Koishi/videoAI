@@ -99,8 +99,6 @@ class YOLODetector:
             raise ValueError(f"无法打开视频文件: {video_path}")
 
         fps = cap.get(cv2.CAP_PROP_FPS)
-        if fps <= 0:
-            fps = 30  # 默认帧率，防止 VideoWriter 用 0 fps
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
         detection_results = []

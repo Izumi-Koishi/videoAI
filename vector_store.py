@@ -45,16 +45,16 @@ class VectorStore:
         return self.client is not None
 
     def _get_or_create_collection(self, video_id: str):
-        """获取或创建集合，返回 collection 对象"""
+        """获取或创建集合"""
         collection_name = f"video_{video_id.replace('-', '_').replace('.', '_')}"
         try:
-            return self.client.get_or_create_collection(
+            self.collection = self.client.get_or_create_collection(
                 name=collection_name,
                 metadata={"hnsw:space": "cosine"}
             )
         except Exception as e:
             print(f"[VectorStore] 创建集合失败: {e}")
-            return None
+            self.collection = None
 
     def _encode(self, texts: List[str]) -> List[List[float]]:
         """将文本编码为向量"""
@@ -82,8 +82,8 @@ class VectorStore:
             print("[VectorStore] 数据库未就绪，跳过存储")
             return
 
-        collection = self._get_or_create_collection(video_id)
-        if collection is None:
+        self._get_or_create_collection(video_id)
+        if self.collection is None:
             return
 
         # 将每帧检测结果作为独立文档存储
@@ -151,7 +151,7 @@ class VectorStore:
 
         try:
             if embeddings is not None:
-                collection.add(
+                self.collection.add(
                     documents=documents,
                     embeddings=embeddings,
                     metadatas=metadatas,
@@ -159,7 +159,7 @@ class VectorStore:
                 )
             else:
                 # 使用 ChromaDB 默认嵌入函数
-                collection.add(
+                self.collection.add(
                     documents=documents,
                     metadatas=metadatas,
                     ids=ids
@@ -186,8 +186,8 @@ class VectorStore:
         if not self.is_ready():
             return []
 
-        collection = self._get_or_create_collection(video_id)
-        if collection is None:
+        self._get_or_create_collection(video_id)
+        if self.collection is None:
             return []
 
         # 编码查询
@@ -196,17 +196,17 @@ class VectorStore:
             query_embedding = query_embedding[0]
 
         try:
-            count = collection.count()
+            count = self.collection.count()
             if count == 0:
                 return []
             n_results = min(top_k, count)
             if query_embedding is not None:
-                results = collection.query(
+                results = self.collection.query(
                     query_embeddings=[query_embedding],
                     n_results=n_results
                 )
             else:
-                results = collection.query(
+                results = self.collection.query(
                     query_texts=[query],
                     n_results=n_results
                 )

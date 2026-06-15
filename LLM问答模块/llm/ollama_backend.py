@@ -1,45 +1,41 @@
 """
-OpenAI 兼容 API 后端
-支持 OpenAI 官方 API 及兼容服务（如本地 vLLM、Ollama OpenAI 模式等）。
+Ollama 本地模型后端
+支持 Llama 3、Qwen、ChatGLM3 等开源模型。
+通过 Ollama 服务进行本地推理。
 """
 
 from typing import Optional
 from .base import BaseLLM
 
 
-class OpenAICompatibleBackend(BaseLLM):
-    """OpenAI 兼容 API 后端"""
+class OllamaBackend(BaseLLM):
+    """Ollama 本地推理后端"""
 
-    def __init__(self, model_name: str = "gpt-4o-mini",
-                 api_key: str = "sk-your-api-key",
-                 base_url: str = "https://api.openai.com/v1",
+    def __init__(self, model_name: str = "qwen2.5:7b",
+                 host: str = "http://localhost:11434",
                  temperature: float = 0.3, max_tokens: int = 1024,
                  top_p: float = 0.9):
         super().__init__(model_name, temperature, max_tokens, top_p)
-        self.api_key = api_key
-        self.base_url = base_url
+        self.host = host
         self._client = None
 
     def _get_client(self):
-        """延迟初始化 OpenAI 客户端"""
+        """延迟初始化 Ollama 客户端"""
         if self._client is None:
             try:
-                from openai import OpenAI
-                self._client = OpenAI(
-                    api_key=self.api_key,
-                    base_url=self.base_url,
-                )
+                import ollama
+                self._client = ollama.Client(host=self.host)
             except ImportError:
                 raise ImportError(
-                    "请安装 openai 库: pip install openai"
+                    "请安装 ollama 库: pip install ollama"
                 )
         return self._client
 
     def is_available(self) -> bool:
-        """检查 API 是否可用"""
+        """检查 Ollama 服务是否可用"""
         try:
             client = self._get_client()
-            client.models.list()
+            client.list()
             return True
         except Exception:
             return False
@@ -47,7 +43,7 @@ class OpenAICompatibleBackend(BaseLLM):
     def generate(self, prompt: str, system_prompt: Optional[str] = None,
                  **kwargs) -> str:
         """
-        调用 OpenAI 兼容 API 生成回答
+        调用 Ollama 生成回答
 
         Args:
             prompt: 用户提示词
@@ -61,13 +57,15 @@ class OpenAICompatibleBackend(BaseLLM):
         messages.append({"role": "user", "content": prompt})
 
         try:
-            response = client.chat.completions.create(
+            response = client.chat(
                 model=self.model_name,
                 messages=messages,
-                temperature=kwargs.get("temperature", self.temperature),
-                max_tokens=kwargs.get("max_tokens", self.max_tokens),
-                top_p=kwargs.get("top_p", self.top_p),
+                options={
+                    "temperature": kwargs.get("temperature", self.temperature),
+                    "num_predict": kwargs.get("max_tokens", self.max_tokens),
+                    "top_p": kwargs.get("top_p", self.top_p),
+                }
             )
-            return response.choices[0].message.content
+            return response["message"]["content"]
         except Exception as e:
-            raise RuntimeError(f"OpenAI API 调用失败: {e}")
+            raise RuntimeError(f"Ollama 生成失败: {e}")

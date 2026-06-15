@@ -1,123 +1,55 @@
 """
-YOLO-CLIP 多模态问答系统 — 整合版
-融合 LLM 问答模块（QAEngine + PromptBuilder + PostProcessor）
-与 Gradio 交互界面（真实 YOLODetector + VectorStore）
+视频AI模型 - Gradio 交互界面
+完整的端到端交互 Demo：视频上传 → YOLO检测 → 向量检索 → LLM问答
 """
-
 import os
-import sys
 import uuid
-import traceback
 from pathlib import Path
-from typing import List, Optional, Tuple
 
 import gradio as gr
 
-# 确保项目根目录在 path 中
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from config import (
-    GRADIO_TITLE, GRADIO_HOST, GRADIO_PORT, GRADIO_SHARE,
-    YOLO_MODEL_PATH, YOLO_FRAME_INTERVAL, YOLO_CONF_THRESHOLD,
-    VECTOR_DB_PATH, RETRIEVAL_TOP_K,
-)
 from yolo_detector import YOLODetector
 from vector_store import VectorStore
-from llm.factory import create_llm, get_available_backends
-from qa.engine import QAEngine
-from prompts.templates import PromptBuilder, RetrievedContext
-
-
-# ============================================================
-# 检索适配器：将 VectorStore 的接口适配为 QAEngine 需要的格式
-# ============================================================
-
-class VectorStoreRetriever:
-    """将真实 VectorStore 适配为 QAEngine 的 retriever 接口"""
-
-    def __init__(self, vector_store: VectorStore, video_id: str):
-        self.vector_store = vector_store
-        self.video_id = video_id
-
-    def search(self, query_text: str, top_k: int = 5) -> list:
-        """检索接口，返回 QAEngine 可用的 SearchResult 列表"""
-        from data_types import SearchResult
-
-        results = self.vector_store.search(self.video_id, query_text, top_k)
-
-        search_results = []
-        for i, item in enumerate(results):
-            doc = item.get("document", "")
-            metadata = item.get("metadata", {})
-            distance = item.get("distance", 0)
-
-            # 从文档文本中提取类别信息
-            labels = []
-            try:
-                import json
-                labels = json.loads(metadata.get("labels", "[]"))
-            except (json.JSONDecodeError, TypeError):
-                pass
-
-            # 计算相似度（ChromaDB cosine distance → similarity）
-            similarity = max(0, 1 - distance)
-            class_name = labels[0] if labels else "未知目标"
-            # 置信度：优先从向量库结果提取，否则用相似度估算
-            confidence = similarity
-
-            # 收集图片路径
-            image_path = metadata.get("saved_image", "")
-            if not image_path or not os.path.exists(image_path):
-                try:
-                    import json
-                    crop_paths = json.loads(metadata.get("crop_paths", "[]"))
-                    image_path = crop_paths[0] if crop_paths else ""
-                except (json.JSONDecodeError, TypeError, IndexError):
-                    pass
-
-            bbox = (0, 0, 0, 0)
-
-            search_results.append(SearchResult(
-                target_id=i + 1,
-                class_name=class_name,
-                confidence=confidence,
-                similarity=similarity,
-                description=doc,
-                image_path=image_path,
-                bbox=bbox,
-            ))
-
-        return search_results
-
+from llm_engine import LLMEngine, PROMPT_TEMPLATES
 
 # ============================================================
 # 全局状态
 # ============================================================
-
 OUTPUT_BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "outputs")
 os.makedirs(OUTPUT_BASE, exist_ok=True)
 
-# 延迟初始化的全局组件
-_detector = None
-_vector_store = None
-_video_id = None
-# LLM 实例缓存：避免每次提问都重新创建客户端
-_llm_cache = {}  # key: (backend, model_name, api_base) -> BaseLLM instance
+# 全局组件（延迟初始化）
+detector = None
+vector_store = None
 
 
 def get_detector() -> YOLODetector:
-    global _detector
-    if _detector is None:
-        _detector = YOLODetector(model_name=YOLO_MODEL_PATH)
-    return _detector
+    """获取/初始化 YOLO 检测器"""
+    global detector
+    if detector is None:
+        detector = YOLODetector(model_name="yolov8n.pt")
+    return detector
 
 
 def get_vector_store() -> VectorStore:
-    global _vector_store
-    if _vector_store is None:
+    """获取/初始化向量数据库"""
+    global vector_store
+    if vector_store is None:
         db_dir = os.path.join(OUTPUT_BASE, "vector_db")
-        _vector_store = VectorStore(persist_dir=db_dir)
-    return _vector_store
+        vector_store = VectorStore(persist_dir=db_dir)
+    return vector_store
+
+
+def create_llm_engine(backend, api_key, api_base, model_name, ollama_model, ollama_url) -> LLMEngine:
+    """创建 LLM 引擎"""
+    return LLMEngine(
+        backend=backend,
+        api_key=api_key,
+        api_base=api_base,
+        model_name=model_name,
+        ollama_model=ollama_model,
+        ollama_url=ollama_url
+    )
 
 
 # ============================================================
@@ -125,9 +57,9 @@ def get_vector_store() -> VectorStore:
 # ============================================================
 
 def process_video(video_path, frame_interval, conf_threshold, progress=gr.Progress()):
-    """处理上传的视频：YOLO 检测 + 向量存储"""
-    global _video_id
-
+    """
+    处理上传的视频：YOLO 检测 + 向量存储
+    """
     if video_path is None:
         gr.Warning("请先上传视频文件！")
         return None, "❌ 未上传视频", "", None
@@ -139,8 +71,8 @@ def process_video(video_path, frame_interval, conf_threshold, progress=gr.Progre
 
     vs = get_vector_store()
 
+    # 生成视频 ID 和输出目录
     video_id = str(uuid.uuid4())[:8]
-    _video_id = video_id
     video_name = Path(video_path).stem
     output_dir = os.path.join(OUTPUT_BASE, video_id, "detection")
     os.makedirs(output_dir, exist_ok=True)
@@ -158,14 +90,18 @@ def process_video(video_path, frame_interval, conf_threshold, progress=gr.Progre
         return None, f"❌ 视频处理失败: {str(e)}", "", None
 
     progress(0.7, desc="🔄 生成检测摘要...")
+
     detection_summary = det.generate_detection_summary(detection_results)
 
     progress(0.8, desc="🔄 存入向量数据库...")
+
+    # 存入向量数据库
     if vs.is_ready() and detection_results:
         vs.add_detection_results(video_id, detection_results, detection_summary)
 
     progress(1.0, desc="✅ 处理完成！")
 
+    # 生成状态信息
     total_objects = sum(len(r.get("labels", [])) for r in detection_results)
     unique_labels = set()
     for r in detection_results:
@@ -192,18 +128,19 @@ def ask_question(
     model_name,
     ollama_model,
     ollama_url,
+    template_name,
     temperature,
     top_k,
     progress=gr.Progress()
 ):
     """
-    问答主逻辑（整合 QAEngine）：
-    问题 → VectorStore检索 → PromptBuilder拼接 → LLM生成 → PostProcessor后处理
+    问答主逻辑：问题 → 向量检索 → Prompt拼接 → LLM生成回答
     """
     if not question or not question.strip():
         gr.Warning("请输入问题！")
         return "❌ 请输入问题", "", []
 
+    
     if not video_id or not video_id.strip():
         gr.Warning("请先处理视频！")
         return "❌ 请先上传并处理视频", "", []
@@ -214,101 +151,45 @@ def ask_question(
     if not vs.is_ready():
         return "❌ 向量数据库未就绪", "", []
 
-    # 1. 创建检索适配器
-    retriever = VectorStoreRetriever(vs, video_id.strip())
+    # 向量检索
+    context_text, image_paths = vs.get_context_and_images(
+        video_id=video_id.strip(),
+        query=question,
+        top_k=int(top_k)
+    )
 
-    # 2. 获取或创建 LLM 后端（带缓存）
-    try:
-        if backend == "ollama":
-            cache_key = ("ollama", ollama_model, ollama_url)
-            if cache_key not in _llm_cache:
-                _llm_cache[cache_key] = create_llm(
-                    backend="ollama",
-                    model_name=ollama_model,
-                    host=ollama_url,
-                    temperature=float(temperature),
-                )
-            llm = _llm_cache[cache_key]
-        elif backend == "openai":
-            effective_key = api_key or os.environ.get("OPENAI_API_KEY", "")
-            if not effective_key:
-                return ("❌ 未提供 API Key，请在界面中填写或设置环境变量 OPENAI_API_KEY",
-                        "", [])
-            cache_key = ("openai", model_name, api_base, effective_key)
-            if cache_key not in _llm_cache:
-                _llm_cache[cache_key] = create_llm(
-                    backend="openai",
-                    model_name=model_name,
-                    api_key=effective_key,
-                    base_url=api_base,
-                    temperature=float(temperature),
-                )
-                # 缓存最多保留 10 个实例，防止内存泄漏
-                if len(_llm_cache) > 10:
-                    _llm_cache.pop(next(iter(_llm_cache)))
-            llm = _llm_cache[cache_key]
+    if not context_text:
+        return "❌ 未检索到相关内容，请确认视频已正确处理", "", []
+
+    progress(0.4, desc="🔄 正在调用 LLM 生成回答...")
+
+    # 创建 LLM 引擎
+    engine = create_llm_engine(
+        backend=backend,
+        api_key=api_key,
+        api_base=api_base,
+        model_name=model_name,
+        ollama_model=ollama_model,
+        ollama_url=ollama_url
+    )
+
+    if not engine.is_ready():
+        if backend == "openai":
+            return "❌ LLM 未就绪：未提供 API Key，请在界面顶部“模型配置”中填写 API Key，或设置环境变量 OPENAI_API_KEY", context_text, image_paths[:6]
         else:
-            llm = create_llm(backend="mock")
-    except Exception as e:
-        return f"❌ LLM 初始化失败: {str(e)}", "", []
+            return "❌ LLM 引擎未就绪，请检查配置", context_text, image_paths[:6]
 
-    # 3. 创建 QAEngine 并执行完整问答流程
-    progress(0.3, desc="🔄 QAEngine 正在检索 + 生成回答...")
-    qa_engine = QAEngine(
-        llm=llm,
-        retriever=retriever.search,
-        domain="视频场景",
-        similarity_threshold=0.3,
+    # LLM 生成回答
+    answer = engine.generate(
+        question=question,
+        context=context_text,
+        template_name=template_name,
+        temperature=float(temperature)
     )
-
-    try:
-        result = qa_engine.ask(question, top_k=int(top_k))
-    except Exception as e:
-        return f"❌ 问答处理失败:\n{traceback.format_exc()}", "", []
-
-    progress(0.9, desc="🔄 收集匹配图片...")
-
-    # 4. 收集匹配图片
-    matched_images = []
-    for ctx in result.contexts:
-        img_path = ctx.image_path
-        if img_path and os.path.exists(img_path):
-            matched_images.append((img_path,
-                                   f"#{ctx.target_id} {ctx.class_name} "
-                                   f"(相似度:{ctx.similarity:.2f})"))
-
-    # 5. 构建检索信息文本
-    retrieval_lines = ["### 📊 检索结果"]
-    for ctx in result.contexts:
-        retrieval_lines.append(
-            f"- **#{ctx.target_id}** {ctx.class_name} "
-            f"(相似度: {ctx.similarity:.4f}, "
-            f"置信度: {ctx.confidence:.0%})"
-        )
-        retrieval_lines.append(f"  - {ctx.description}")
-    retrieval_text = "\n".join(retrieval_lines)
-
-    # 6. 追加系统信息
-    time_info = f"⏱ 耗时: {result.elapsed_time:.2f}s"
-    if result.confidence:
-        time_info += f" | 置信度: {result.confidence}"
-
-    model_info_str = (
-        f"🤖 {result.model_info.get('model', 'N/A')} "
-        f"({result.model_info.get('backend', 'N/A')})"
-    )
-
-    if result.warnings:
-        warning_lines = ["", "### ⚠️ 质量提示"]
-        for w in result.warnings:
-            warning_lines.append(f"- {w}")
-        time_info += "\n".join(warning_lines)
-
-    answer_with_info = f"{result.answer}\n\n---\n{time_info}\n{model_info_str}"
 
     progress(1.0, desc="✅ 回答生成完成！")
 
-    return answer_with_info, retrieval_text, matched_images if matched_images else []
+    return answer, context_text, image_paths[:6]
 
 
 # ============================================================
@@ -318,12 +199,12 @@ def ask_question(
 def build_ui():
     """构建完整的 Gradio 交互界面"""
 
-    with gr.Blocks(title=GRADIO_TITLE) as demo:
+    with gr.Blocks(title="视频AI模型 - 智能问答系统") as demo:
 
         gr.Markdown(
-            f"""
-            # 🎬 {GRADIO_TITLE}
-            ### 基于 YOLO 目标检测 + CLIP 语义对齐 + 向量检索 + LLM 智能问答的端到端视频理解系统
+            """
+            # 🎬 视频 AI 模型 - 智能问答系统
+            ### 基于 YOLO 目标检测 + 向量检索 + 大语言模型的端到端视频理解系统
             ---
             """
         )
@@ -349,66 +230,79 @@ def build_ui():
                     api_base_input = gr.Textbox(
                         label="API Base URL",
                         value="https://api.openai.com/v1",
+                        placeholder="https://api.openai.com/v1"
                     )
                     model_name_input = gr.Textbox(
                         label="模型名称",
                         value="gpt-3.5-turbo",
+                        placeholder="gpt-3.5-turbo / qwen-plus / etc."
                     )
                 with gr.Column(scale=1):
                     gr.Markdown("**Ollama 本地模型配置**")
                     ollama_model_input = gr.Textbox(
                         label="Ollama 模型名称",
                         value="qwen2.5:7b",
+                        placeholder="qwen2.5:7b / llama3 / etc."
                     )
                     ollama_url_input = gr.Textbox(
                         label="Ollama 服务地址",
                         value="http://localhost:11434",
+                        placeholder="http://localhost:11434"
                     )
 
-        # ==================== 主体区域：视频输入与检测 ====================
+        # ==================== 主体区域 ====================
         with gr.Row():
+            # ---- 左侧：视频输入与检测 ----
             with gr.Column(scale=1):
                 gr.Markdown("## 📹 视频输入与检测")
 
+                # 视频上传 / 摄像头采集
                 video_input = gr.Video(
                     label="上传视频 / 摄像头采集",
                     sources=["upload", "webcam"],
                     format="mp4"
                 )
 
+                # 检测参数
                 with gr.Row():
                     frame_interval = gr.Slider(
-                        minimum=5, maximum=120, value=YOLO_FRAME_INTERVAL, step=5,
+                        minimum=5, maximum=120, value=30, step=5,
                         label="检测帧间隔",
                         info="每隔多少帧进行一次检测"
                     )
                     conf_threshold = gr.Slider(
-                        minimum=0.1, maximum=0.9, value=YOLO_CONF_THRESHOLD, step=0.05,
+                        minimum=0.1, maximum=0.9, value=0.25, step=0.05,
                         label="置信度阈值",
                         info="YOLO 检测置信度下限"
                     )
 
+                # 处理按钮
                 process_btn = gr.Button("🚀 开始检测处理", variant="primary", size="lg")
 
+                # 处理状态
                 process_status = gr.Textbox(
                     label="处理状态",
                     lines=6,
                     interactive=False
                 )
 
+                # 检测摘要
                 detection_summary = gr.Textbox(
                     label="检测摘要",
                     lines=5,
                     interactive=False
                 )
 
+            # ---- 右侧：检测结果可视化 ----
             with gr.Column(scale=1):
                 gr.Markdown("## 🎯 YOLO 检测结果可视化")
 
+                # 检测后视频
                 detection_video = gr.Video(
                     label="检测结果视频（含标注框）"
                 )
 
+                # 视频 ID（隐藏状态）
                 video_id_state = gr.Textbox(
                     label="视频 ID",
                     interactive=False,
@@ -419,6 +313,7 @@ def build_ui():
 
         # ==================== 问答区域 ====================
         with gr.Row():
+            # ---- 左侧：问题输入与配置 ----
             with gr.Column(scale=1):
                 gr.Markdown("## 💬 智能问答")
 
@@ -428,14 +323,21 @@ def build_ui():
                     lines=3
                 )
 
+                # 问答参数
                 with gr.Row():
+                    template_dropdown = gr.Dropdown(
+                        choices=["auto"] + list(PROMPT_TEMPLATES.keys()),
+                        value="auto",
+                        label="Prompt 模板",
+                        info="auto 为自动选择"
+                    )
                     temperature_slider = gr.Slider(
-                        minimum=0.0, maximum=1.5, value=0.3, step=0.1,
+                        minimum=0.0, maximum=1.5, value=0.7, step=0.1,
                         label="生成温度",
-                        info="越低越精确"
+                        info="越高越随机"
                     )
                     top_k_slider = gr.Slider(
-                        minimum=1, maximum=20, value=RETRIEVAL_TOP_K, step=1,
+                        minimum=1, maximum=20, value=5, step=1,
                         label="检索 Top-K",
                         info="检索最相关的K条结果"
                     )
@@ -449,73 +351,65 @@ def build_ui():
 
                 ask_btn = gr.Button("🤔 提问", variant="primary", size="lg")
 
+            # ---- 右侧：回答输出与图片展示 ----
             with gr.Column(scale=1):
                 gr.Markdown("## 📝 LLM 回答输出")
 
-                answer_output = gr.Markdown(
-                    value="*等待提问...*",
+                answer_output = gr.Textbox(
+                    label="LLM 回答",
+                    lines=8,
+                    interactive=False
                 )
 
-                with gr.Accordion("🔍 检索详情（点击展开）", open=False):
-                    retrieval_detail = gr.Markdown(
-                        value="*检索详情将在此显示*",
+                # 检索上下文（可折叠）
+                with gr.Accordion("🔍 检索上下文（点击展开）", open=False):
+                    context_output = gr.Textbox(
+                        label="检索到的上下文",
+                        lines=5,
+                        interactive=False
                     )
 
+                # 匹配目标图像展示区域
                 gr.Markdown("## 🖼️ 匹配目标图像")
-                matched_gallery = gr.Gallery(
-                    label="向量检索匹配的目标",
+                matched_images = gr.Gallery(
+                    label="匹配的目标图像",
                     columns=3,
                     rows=2,
-                    height=250,
-                    object_fit="contain",
+                    height="auto"
                 )
 
         # ==================== 底部说明 ====================
-        with gr.Accordion("📖 使用说明", open=False):
-            gr.Markdown("""
-            ### 操作步骤
-            1. **上传视频** — 点击左侧上传区域选择视频文件，或使用摄像头采集
-            2. **开始检测** — 点击"开始检测处理"，系统运行 YOLO 检测并将结果存入向量数据库
-            3. **输入问题** — 在右侧问题框输入您想了解的内容
-            4. **获取回答** — 点击"提问"，LLM 将基于检索上下文生成回答
-
-            ### 问答流程
-            用户问题 → 文本特征提取 → 向量库检索匹配 → Prompt 拼接 → LLM 生成回答 → 后处理（幻觉检测）
-
-            ### LLM 后端
-            - **OpenAI 兼容 API**：支持 OpenAI、DeepSeek、Qwen 等兼容接口
-            - **Ollama 本地模型**：支持 Llama3、Qwen、ChatGLM3 等开源模型
-            """)
+        gr.Markdown(
+            """
+            ---
+            ### 📖 使用说明
+            1. **上传视频**：支持上传视频文件或使用摄像头采集
+            2. **检测处理**：点击"开始检测处理"，系统将自动进行 YOLO 目标检测并将结果存入向量数据库
+            3. **智能问答**：在问题输入框中输入问题，系统将检索相关内容并调用 LLM 生成回答
+            4. **查看结果**：回答、检索上下文和匹配的目标图像将同步展示
+            5. **模型配置**：在顶部"模型配置"中设置 LLM 后端（支持 OpenAI 兼容 API 和 Ollama 本地模型）
+            """
+        )
 
         # ==================== 事件绑定 ====================
 
+        # 视频处理
         process_btn.click(
             fn=process_video,
             inputs=[video_input, frame_interval, conf_threshold],
             outputs=[detection_video, process_status, detection_summary, video_id_state]
         )
 
+        # 问答
         ask_btn.click(
             fn=ask_question,
             inputs=[
                 question_input, video_id_state,
                 backend_radio, api_key_input, api_base_input,
                 model_name_input, ollama_model_input, ollama_url_input,
-                temperature_slider, top_k_slider
+                template_dropdown, temperature_slider, top_k_slider
             ],
-            outputs=[answer_output, retrieval_detail, matched_gallery]
-        )
-
-        # 回车提交
-        question_input.submit(
-            fn=ask_question,
-            inputs=[
-                question_input, video_id_state,
-                backend_radio, api_key_input, api_base_input,
-                model_name_input, ollama_model_input, ollama_url_input,
-                temperature_slider, top_k_slider
-            ],
-            outputs=[answer_output, retrieval_detail, matched_gallery]
+            outputs=[answer_output, context_output, matched_images]
         )
 
         # 快捷问题按钮
@@ -532,18 +426,10 @@ def build_ui():
 # ============================================================
 
 if __name__ == "__main__":
-    print("=" * 60)
-    print(f"  {GRADIO_TITLE}")
-    print("=" * 60)
-    print(f"\n可用的 LLM 后端: {get_available_backends()}")
-    print(f"\n启动 Gradio 界面...")
-    print(f"本地地址: http://{GRADIO_HOST}:{GRADIO_PORT}")
-
     demo = build_ui()
     demo.launch(
-        server_name=GRADIO_HOST,
-        server_port=GRADIO_PORT,
-        share=GRADIO_SHARE,
-        show_error=True,
-        inbrowser=True,
+        server_name="0.0.0.0",
+        server_port=7860,
+        share=False,
+        inbrowser=True
     )
