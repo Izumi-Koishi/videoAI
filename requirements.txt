@@ -1,0 +1,21 @@
+# Gradio 交互界面
+gradio>=4.0.0
+
+# YOLO 目标检测
+ultralytics>=8.0.0
+
+# 向量数据库
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# LLM 后端
+openai>=1.0.0
+
+# 图像处理
+Pillow>=9.0.0
+
+# 数值计算
+numpy>=1.23.0
+
+# 视频处理
+opencv-python>=4.6.0
