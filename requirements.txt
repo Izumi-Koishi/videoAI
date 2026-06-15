@@ -6,3 +6,16 @@ Pillow>=9.0.0
 numpy>=1.23.0
 opencv-python>=4.6.0
 sentence-transformers>=2.2.0
+# LLM 问答 + Gradio 界面 依赖
+# 核心依赖
+gradio>=4.0.0
+openai>=1.0.0
+ollama>=0.4.0
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# 可选：本地CLIP（演示用）
+# torch>=2.0.0
+# transformers>=4.30.0
+# faiss-cpu>=1.7.0
+# chromadb>=0.4.0
