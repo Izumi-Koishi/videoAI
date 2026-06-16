@@ -1,0 +1,5 @@
+# Chroma 向量数据库
+chromadb==0.4.24
+
+# NumPy（必须 < 2.0 以兼容 chromadb 0.4.24）
+numpy>=1.24.0,<2.0.0
