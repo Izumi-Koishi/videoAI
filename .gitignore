@@ -7,6 +7,12 @@ __pycache__/
 *.egg-info/
 .eggs/
 
+#llm
+outputs/
+data/uploads/
+*.egg-info/
+dist/
+
 # VectorDB data
 data/
 !data/.gitkeep
@@ -52,3 +58,4 @@ dist/
 
 # Chroma
 chroma.sqlite3
+
