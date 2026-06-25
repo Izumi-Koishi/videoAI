@@ -1,0 +1,728 @@
+{
+  "Entity": {
+    "Person": {
+      "Student": [
+        {
+          "id": "entity_person_student_001",
+          "name": "学生",
+          "category": "Person",
+          "subcategory": "Student",
+          "description": "在校园内进行学习活动的在校注册人员，是校园中最主要的群体",
+          "attributes": ["穿校服", "背书包", "携带书本", "佩戴学生证", "年龄12-25岁"],
+          "typical_scenes": ["教室", "图书馆", "食堂", "操场", "宿舍"]
+        },
+        {
+          "id": "entity_person_student_002",
+          "name": "小学生",
+          "category": "Person",
+          "subcategory": "Student",
+          "description": "在小学就读的学生，通常由家长接送，活动范围以教室和操场为主",
+          "attributes": ["穿校服", "背书包", "戴红领巾", "年龄6-12岁", "排队行进"],
+          "typical_scenes": ["教室", "操场", "校门口"]
+        },
+        {
+          "id": "entity_person_student_003",
+          "name": "中学生",
+          "category": "Person",
+          "subcategory": "Student",
+          "description": "在中学就读的学生，以班级为单位进行学习和管理",
+          "attributes": ["穿校服", "背双肩包", "佩戴校徽", "年龄12-18岁", "骑自行车"],
+          "typical_scenes": ["教室", "操场", "食堂", "校门口"]
+        },
+        {
+          "id": "entity_person_student_004",
+          "name": "大学生",
+          "category": "Person",
+          "subcategory": "Student",
+          "description": "在高等院校就读的学生，自由度较高，活动范围遍布整个校园",
+          "attributes": ["背笔记本电脑", "携带书本", "佩戴校园卡", "年龄18-25岁", "使用手机"],
+          "typical_scenes": ["教学楼", "图书馆", "食堂", "宿舍", "体育馆"]
+        }
+      ],
+      "Teacher": [
+        {
+          "id": "entity_person_teacher_001",
+          "name": "教师",
+          "category": "Person",
+          "subcategory": "Teacher",
+          "description": "在校园内从事教育教学工作的专业人员，负责授课和学生管理",
+          "attributes": ["佩戴工作证", "携带教案/教材", "衣着正式", "年龄25-60岁"],
+          "typical_scenes": ["教室", "办公室", "会议室"]
+        },
+        {
+          "id": "entity_person_teacher_002",
+          "name": "班主任",
+          "category": "Person",
+          "subcategory": "Teacher",
+          "description": "负责一个班级全面管理工作的教师，需要关注学生的学习和纪律",
+          "attributes": ["管理班级事务", "与家长沟通", "组织班会"],
+          "typical_scenes": ["教室", "办公室"]
+        },
+        {
+          "id": "entity_person_teacher_003",
+          "name": "体育教师",
+          "category": "Person",
+          "subcategory": "Teacher",
+          "description": "负责体育课程教学和运动队训练的教师",
+          "attributes": ["穿运动服", "携带哨子", "使用体育器材"],
+          "typical_scenes": ["操场", "体育馆"]
+        }
+      ],
+      "Staff": [
+        {
+          "id": "entity_person_staff_001",
+          "name": "保安",
+          "category": "Person",
+          "subcategory": "Staff",
+          "description": "负责校园安全保卫工作的人员，值守校门和巡逻校园",
+          "attributes": ["穿保安制服", "佩戴对讲机", "携带警棍", "站岗执勤"],
+          "typical_scenes": ["校门口", "校园道路", "监控室"]
+        },
+        {
+          "id": "entity_person_staff_002",
+          "name": "保洁员",
+          "category": "Person",
+          "subcategory": "Staff",
+          "description": "负责校园环境卫生清洁工作的人员",
+          "attributes": ["穿工作服", "携带清洁工具", "推垃圾车"],
+          "typical_scenes": ["教学楼", "校园道路", "食堂"]
+        },
+        {
+          "id": "entity_person_staff_003",
+          "name": "食堂工作人员",
+          "category": "Person",
+          "subcategory": "Staff",
+          "description": "在校园食堂从事餐饮服务的工作人员",
+          "attributes": ["穿厨师服", "戴厨师帽", "戴口罩", "佩戴围裙"],
+          "typical_scenes": ["食堂"]
+        },
+        {
+          "id": "entity_person_staff_004",
+          "name": "宿管员",
+          "category": "Person",
+          "subcategory": "Staff",
+          "description": "负责学生宿舍管理和服务的工作人员",
+          "attributes": ["在宿舍楼值班", "管理门禁", "处理住宿事务"],
+          "typical_scenes": ["宿舍楼"]
+        }
+      ],
+      "Visitor": [
+        {
+          "id": "entity_person_visitor_001",
+          "name": "访客",
+          "category": "Person",
+          "subcategory": "Visitor",
+          "description": "临时进入校园的非本校人员，需登记并佩戴临时证件",
+          "attributes": ["登记信息", "佩戴访客证", "由校内人员陪同"],
+          "typical_scenes": ["校门口", "行政楼"]
+        },
+        {
+          "id": "entity_person_visitor_002",
+          "name": "家长",
+          "category": "Person",
+          "subcategory": "Visitor",
+          "description": "来校接送学生或参加家长会的学生家长",
+          "attributes": ["携带物品", "接送学生", "参加家长会"],
+          "typical_scenes": ["校门口", "教学楼"]
+        }
+      ]
+    },
+    "Vehicle": {
+      "Car": [
+        {
+          "id": "entity_vehicle_car_001",
+          "name": "轿车",
+          "category": "Vehicle",
+          "subcategory": "Car",
+          "description": "校园内常见的四轮乘用车，包括教师私家车和公务用车",
+          "attributes": ["四轮", "有车牌", "车窗", "停放在停车场"],
+          "typical_scenes": ["停车场", "校园道路"]
+        }
+      ],
+      "Bus": [
+        {
+          "id": "entity_vehicle_bus_001",
+          "name": "校车",
+          "category": "Vehicle",
+          "subcategory": "Bus",
+          "description": "专门用于接送学生的黄色或专用涂装客车",
+          "attributes": ["黄色涂装", "校车标识", "有停车标志", "载学生"],
+          "typical_scenes": ["校门口", "校园道路"]
+        }
+      ],
+      "Bicycle": [
+        {
+          "id": "entity_vehicle_bicycle_001",
+          "name": "自行车",
+          "category": "Vehicle",
+          "subcategory": "Bicycle",
+          "description": "学生和教职工常用的代步工具，校园内大量停放",
+          "attributes": ["两轮", "停放车棚", "锁车"],
+          "typical_scenes": ["车棚", "校园道路"]
+        }
+      ],
+      "EBike": [
+        {
+          "id": "entity_vehicle_ebike_001",
+          "name": "电动车",
+          "category": "Vehicle",
+          "subcategory": "EBike",
+          "description": "校园内常见的电动两轮车，速度较快",
+          "attributes": ["两轮", "电池", "充电", "停放指定区域"],
+          "typical_scenes": ["车棚", "校园道路"]
+        }
+      ],
+      "Truck": [
+        {
+          "id": "entity_vehicle_truck_001",
+          "name": "货车",
+          "category": "Vehicle",
+          "subcategory": "Truck",
+          "description": "运送物资、快递、餐饮原料的货运车辆",
+          "attributes": ["载货", "有车厢", "送货"],
+          "typical_scenes": ["后勤通道", "食堂后门"]
+        }
+      ]
+    },
+    "Building": {
+      "TeachingBuilding": [
+        {
+          "id": "entity_building_teaching_001",
+          "name": "教学楼",
+          "category": "Building",
+          "subcategory": "TeachingBuilding",
+          "description": "用于开展课堂教学活动的主要建筑，包含多间教室",
+          "attributes": ["多楼层", "教室", "走廊", "楼梯", "卫生间"],
+          "typical_scenes": ["教室", "走廊", "大厅"]
+        }
+      ],
+      "Library": [
+        {
+          "id": "entity_building_library_001",
+          "name": "图书馆",
+          "category": "Building",
+          "subcategory": "Library",
+          "description": "供学生自习和借阅图书的场所，需保持安静",
+          "attributes": ["安静", "书籍", "自习座位", "借阅台", "门禁"],
+          "typical_scenes": ["自习区", "借阅区"]
+        }
+      ],
+      "Dormitory": [
+        {
+          "id": "entity_building_dormitory_001",
+          "name": "宿舍楼",
+          "category": "Building",
+          "subcategory": "Dormitory",
+          "description": "学生住宿生活的场所，有门禁管理和宿管员值班",
+          "attributes": ["宿舍房间", "门禁", "宿管值班室", "洗衣机"],
+          "typical_scenes": ["宿舍楼入口", "走廊"]
+        }
+      ],
+      "Cafeteria": [
+        {
+          "id": "entity_building_cafeteria_001",
+          "name": "食堂",
+          "category": "Building",
+          "subcategory": "Cafeteria",
+          "description": "为学生和教职工提供餐饮服务的场所",
+          "attributes": ["就餐区", "打餐窗口", "餐具回收", "座位"],
+          "typical_scenes": ["就餐区", "打餐窗口前"]
+        }
+      ],
+      "Gymnasium": [
+        {
+          "id": "entity_building_gym_001",
+          "name": "体育馆",
+          "category": "Building",
+          "subcategory": "Gymnasium",
+          "description": "开展室内体育教学和运动的场馆",
+          "attributes": ["球场", "看台", "更衣室", "运动器材"],
+          "typical_scenes": ["球场", "看台"]
+        }
+      ],
+      "AdminBuilding": [
+        {
+          "id": "entity_building_admin_001",
+          "name": "行政楼",
+          "category": "Building",
+          "subcategory": "AdminBuilding",
+          "description": "学校行政办公的场所，包含校长室、教务处、财务处等",
+          "attributes": ["办公室", "会议室", "接待区"],
+          "typical_scenes": ["大厅", "走廊"]
+        }
+      ]
+    },
+    "Facility": {
+      "Playground": [
+        {
+          "id": "entity_facility_playground_001",
+          "name": "操场",
+          "category": "Facility",
+          "subcategory": "Playground",
+          "description": "校园内的室外运动场地，用于体育课、课间操和课外活动",
+          "attributes": ["跑道", "草坪", "篮球场", "足球门"],
+          "typical_scenes": ["跑道", "草坪"]
+        }
+      ],
+      "ParkingLot": [
+        {
+          "id": "entity_facility_parking_001",
+          "name": "停车场",
+          "category": "Facility",
+          "subcategory": "ParkingLot",
+          "description": "校园内供车辆停放的区域，有划线车位",
+          "attributes": ["车位标线", "停放车辆", "出入口"],
+          "typical_scenes": ["车位区域"]
+        }
+      ],
+      "Gate": [
+        {
+          "id": "entity_facility_gate_001",
+          "name": "校门",
+          "category": "Facility",
+          "subcategory": "Gate",
+          "description": "校园的主要出入口，设有门卫和门禁系统",
+          "attributes": ["大门", "门卫室", "道闸", "门禁"],
+          "typical_scenes": ["校门口"]
+        }
+      ],
+      "BikeShed": [
+        {
+          "id": "entity_facility_bike_shed_001",
+          "name": "车棚",
+          "category": "Facility",
+          "subcategory": "BikeShed",
+          "description": "供自行车和电动车停放的有顶棚区域",
+          "attributes": ["停放架", "充电插座", "顶棚"],
+          "typical_scenes": ["车棚内"]
+        }
+      ]
+    },
+    "Object": {
+      "Backpack": [
+        {
+          "id": "entity_object_backpack_001",
+          "name": "书包",
+          "category": "Object",
+          "subcategory": "Backpack",
+          "description": "学生携带的用于装课本和文具的包袋",
+          "attributes": ["双肩背", "装书本", "有拉链"],
+          "typical_scenes": ["教室", "校园道路"]
+        }
+      ],
+      "Laptop": [
+        {
+          "id": "entity_object_laptop_001",
+          "name": "笔记本电脑",
+          "category": "Object",
+          "subcategory": "Laptop",
+          "description": "学生和教师使用的便携式计算机，常用于课堂和图书馆",
+          "attributes": ["便携", "屏幕", "键盘"],
+          "typical_scenes": ["教室", "图书馆"]
+        }
+      ],
+      "Textbook": [
+        {
+          "id": "entity_object_textbook_001",
+          "name": "课本",
+          "category": "Object",
+          "subcategory": "Textbook",
+          "description": "学生上课使用的教材",
+          "attributes": ["印刷品", "有封面", "有内容"],
+          "typical_scenes": ["教室", "图书馆"]
+        }
+      ],
+      "CampusCard": [
+        {
+          "id": "entity_object_campus_card_001",
+          "name": "校园卡",
+          "category": "Object",
+          "subcategory": "CampusCard",
+          "description": "学生和教职工的身份识别和消费凭证，用于门禁、食堂、图书馆等",
+          "attributes": ["IC卡", "有照片", "有学号/工号"],
+          "typical_scenes": ["食堂", "图书馆", "校门口"]
+        }
+      ],
+      "FireExtinguisher": [
+        {
+          "id": "entity_object_fire_extinguisher_001",
+          "name": "灭火器",
+          "category": "Object",
+          "subcategory": "FireExtinguisher",
+          "description": "校园内配备的消防器材，用于初期火灾扑救",
+          "attributes": ["红色", "压力表", "安全销"],
+          "typical_scenes": ["走廊", "楼道"]
+        }
+      ],
+      "CCTV": [
+        {
+          "id": "entity_object_cctv_001",
+          "name": "监控摄像头",
+          "category": "Object",
+          "subcategory": "CCTV",
+          "description": "校园内安装的视频监控设备，用于安全监控",
+          "attributes": ["球形/枪形", "安装在墙面/杆上", "有指示灯"],
+          "typical_scenes": ["校园各处"]
+        }
+      ]
+    }
+  },
+  "Event": {
+    "Learning": [
+      {
+        "id": "event_learning_class_001",
+        "name": "上课",
+        "category": "Event",
+        "subcategory": "Learning",
+        "description": "教师在教室向学生传授知识的教学活动",
+        "trigger": "上课铃声",
+        "participants": ["教师", "学生"],
+        "location": "教室",
+        "attributes": ["教师讲授", "学生听讲", "板书", "PPT展示"]
+      },
+      {
+        "id": "event_learning_selfstudy_001",
+        "name": "自习",
+        "category": "Event",
+        "subcategory": "Learning",
+        "description": "学生在图书馆或教室自主学习的活动",
+        "trigger": "课余时间",
+        "participants": ["学生"],
+        "location": "图书馆、自习室",
+        "attributes": ["安静", "看书", "做作业", "使用电脑"]
+      },
+      {
+        "id": "event_learning_exam_001",
+        "name": "考试",
+        "category": "Event",
+        "subcategory": "Learning",
+        "description": "学校组织的学业考核活动",
+        "trigger": "考试安排",
+        "participants": ["学生", "监考教师"],
+        "location": "教室",
+        "attributes": ["单人单桌", "安静", "答卷", "监考巡视"]
+      }
+    ],
+    "Life": [
+      {
+        "id": "event_life_dining_001",
+        "name": "就餐",
+        "category": "Event",
+        "subcategory": "Life",
+        "description": "学生在食堂用餐的活动",
+        "trigger": "用餐时间",
+        "participants": ["学生", "教职工", "食堂工作人员"],
+        "location": "食堂",
+        "attributes": ["排队打餐", "刷卡消费", "就餐", "餐具回收"]
+      },
+      {
+        "id": "event_life_sleep_001",
+        "name": "就寝",
+        "category": "Event",
+        "subcategory": "Life",
+        "description": "学生在宿舍就寝休息的活动",
+        "trigger": "熄灯时间",
+        "participants": ["学生", "宿管员"],
+        "location": "宿舍",
+        "attributes": ["熄灯", "安静", "休息"]
+      }
+    ],
+    "Sports": [
+      {
+        "id": "event_sports_pe_001",
+        "name": "体育课",
+        "category": "Event",
+        "subcategory": "Sports",
+        "description": "学生在操场或体育馆上体育课的活动",
+        "trigger": "课程安排",
+        "participants": ["学生", "体育教师"],
+        "location": "操场、体育馆",
+        "attributes": ["列队", "跑步", "球类运动", "做操"]
+      },
+      {
+        "id": "event_sports_competition_001",
+        "name": "体育比赛",
+        "category": "Event",
+        "subcategory": "Sports",
+        "description": "学校组织的体育竞赛活动，如篮球赛、足球赛等",
+        "trigger": "赛事安排",
+        "participants": ["运动员", "裁判", "观众"],
+        "location": "操场、体育馆",
+        "attributes": ["对抗", "裁判判罚", "观众加油"]
+      }
+    ],
+    "Security": [
+      {
+        "id": "event_security_fight_001",
+        "name": "打架斗殴",
+        "category": "Event",
+        "subcategory": "Security",
+        "description": "校园内学生之间发生的肢体冲突，属于严重的违纪行为",
+        "trigger": "言语冲突、矛盾激化",
+        "participants": ["涉事学生", "围观学生"],
+        "location": "教室、操场、校园道路",
+        "attributes": ["推搡", "拳打脚踢", "大声争吵", "人员聚集"],
+        "severity": "高"
+      },
+      {
+        "id": "event_security_trespass_001",
+        "name": "非法闯入",
+        "category": "Event",
+        "subcategory": "Security",
+        "description": "未经授权的人员进入校园或特定区域的行为",
+        "trigger": "门禁失效、翻越围墙",
+        "participants": ["闯入者"],
+        "location": "校门口、围墙",
+        "attributes": ["翻墙", "尾随进入", "破坏门禁"],
+        "severity": "高"
+      },
+      {
+        "id": "event_security_wandering_001",
+        "name": "可疑徘徊",
+        "category": "Event",
+        "subcategory": "Security",
+        "description": "人员在校园内长时间逗留、四处张望的可疑行为",
+        "trigger": "异常行为模式",
+        "participants": ["可疑人员"],
+        "location": "校园各处",
+        "attributes": ["长时间逗留", "四处张望", "形迹可疑"],
+        "severity": "中"
+      },
+      {
+        "id": "event_security_fall_001",
+        "name": "摔倒",
+        "category": "Event",
+        "subcategory": "Security",
+        "description": "人员在校园内不慎摔倒，可能造成受伤",
+        "trigger": "地面湿滑、跑步摔倒",
+        "participants": ["摔倒者"],
+        "location": "走廊、操场、楼梯",
+        "attributes": ["倒地", "痛苦表情", "需要帮助"],
+        "severity": "中"
+      }
+    ],
+    "Abnormal": [
+      {
+        "id": "event_abnormal_late_001",
+        "name": "迟到",
+        "category": "Event",
+        "subcategory": "Abnormal",
+        "description": "学生未按规定时间到达教室上课的行为",
+        "trigger": "起床晚、路上耽搁",
+        "participants": ["学生"],
+        "location": "教室门口",
+        "attributes": ["匆忙奔跑", "上课后进入", "被记录"],
+        "severity": "低"
+      },
+      {
+        "id": "event_abnormal_absent_001",
+        "name": "缺勤",
+        "category": "Event",
+        "subcategory": "Abnormal",
+        "description": "学生无故未到课的行为",
+        "trigger": "旷课、请假未批准",
+        "participants": ["学生"],
+        "location": "教室",
+        "attributes": ["座位空置", "未签到"],
+        "severity": "中"
+      },
+      {
+        "id": "event_abnormal_聚集_001",
+        "name": "人群异常聚集",
+        "category": "Event",
+        "subcategory": "Abnormal",
+        "description": "校园内出现非正常的大规模人员聚集",
+        "trigger": "突发事件、群体事件",
+        "participants": ["大量学生"],
+        "location": "校园各处",
+        "attributes": ["人员密集", "喧哗", "秩序混乱"],
+        "severity": "高"
+      }
+    ]
+  },
+  "Rule": {
+    "Behavior": [
+      {
+        "id": "rule_behavior_001",
+        "name": "保持安静",
+        "category": "Rule",
+        "subcategory": "Behavior",
+        "description": "在图书馆、教室等学习场所应保持安静，禁止大声喧哗",
+        "applicable_scenes": ["图书馆", "教室", "自习室"],
+        "violation_example": "大声交谈、手机铃声"
+      },
+      {
+        "id": "rule_behavior_002",
+        "name": "禁止追逐打闹",
+        "category": "Rule",
+        "subcategory": "Behavior",
+        "description": "校园公共区域禁止追逐打闹，防止意外伤害",
+        "applicable_scenes": ["走廊", "楼梯", "校园道路"],
+        "violation_example": "奔跑追逐、推搡打闹"
+      },
+      {
+        "id": "rule_behavior_003",
+        "name": "禁止吸烟",
+        "category": "Rule",
+        "subcategory": "Behavior",
+        "description": "校园内全面禁烟，禁止在室内外任何区域吸烟",
+        "applicable_scenes": ["校园全域"],
+        "violation_example": "在角落吸烟、乱扔烟头"
+      },
+      {
+        "id": "rule_behavior_004",
+        "name": "禁止携带手机进入教学区",
+        "category": "Rule",
+        "subcategory": "Behavior",
+        "description": "学生禁止将手机带入教学区，或需上交统一保管",
+        "applicable_scenes": ["教室", "教学楼"],
+        "violation_example": "上课玩手机、手机响铃"
+      },
+      {
+        "id": "rule_behavior_005",
+        "name": "着装规范",
+        "category": "Rule",
+        "subcategory": "Behavior",
+        "description": "学生应按规定穿校服，衣着整洁得体",
+        "applicable_scenes": ["校园全域"],
+        "violation_example": "未穿校服、着装不整"
+      },
+      {
+        "id": "rule_behavior_006",
+        "name": "公共场合举止文明",
+        "category": "Rule",
+        "subcategory": "Behavior",
+        "description": "在校园公共场合应举止文明得体，避免过于亲密的行为",
+        "applicable_scenes": ["教室", "图书馆", "食堂", "校道"],
+        "violation_example": "搂抱亲吻等不雅行为"
+      }
+    ],
+    "Safety": [
+      {
+        "id": "rule_safety_001",
+        "name": "按时到校离校",
+        "category": "Rule",
+        "subcategory": "Safety",
+        "description": "学生应按时到校上课，按时离校回家，防止意外事故发生",
+        "applicable_scenes": ["校门口"],
+        "violation_example": "迟到、早退、无故滞留"
+      },
+      {
+        "id": "rule_safety_002",
+        "name": "宿舍门禁管理",
+        "category": "Rule",
+        "subcategory": "Safety",
+        "description": "宿舍楼实行门禁管理，学生应在规定时间前返回宿舍",
+        "applicable_scenes": ["宿舍楼"],
+        "violation_example": "夜不归宿、晚归"
+      },
+      {
+        "id": "rule_safety_003",
+        "name": "禁止携带危险物品",
+        "category": "Rule",
+        "subcategory": "Safety",
+        "description": "禁止携带管制刀具、易燃易爆等危险物品进入校园",
+        "applicable_scenes": ["校门口"],
+        "violation_example": "携带刀具、烟花等"
+      }
+    ]
+  },
+  "Scene": {
+    "Classroom": [
+      {
+        "id": "scene_classroom_001",
+        "name": "教室场景",
+        "category": "Scene",
+        "subcategory": "Classroom",
+        "description": "教室内进行教学活动的场景，包含讲台、课桌椅、黑板等设施",
+        "typical_entities": ["学生", "教师", "课桌", "课本", "笔记本电脑"],
+        "typical_events": ["上课", "考试", "自习"],
+        "soundscape": ["讲课声", "书写声", "翻书声"]
+      }
+    ],
+    "Library": [
+      {
+        "id": "scene_library_001",
+        "name": "图书馆场景",
+        "category": "Scene",
+        "subcategory": "Library",
+        "description": "图书馆内安静的学习场景，有书架、阅览桌和大量书籍",
+        "typical_entities": ["学生", "图书", "阅览桌", "校园卡"],
+        "typical_events": ["自习", "借阅"],
+        "soundscape": ["翻书声", "安静"]
+      }
+    ],
+    "Cafeteria": [
+      {
+        "id": "scene_cafeteria_001",
+        "name": "食堂场景",
+        "category": "Scene",
+        "subcategory": "Cafeteria",
+        "description": "食堂内用餐的场景，有打餐窗口、餐桌和排队人群",
+        "typical_entities": ["学生", "教职工", "食堂工作人员", "餐盘"],
+        "typical_events": ["就餐"],
+        "soundscape": ["嘈杂人声", "餐具碰撞声"]
+      }
+    ],
+    "Playground": [
+      {
+        "id": "scene_playground_001",
+        "name": "操场场景",
+        "category": "Scene",
+        "subcategory": "Playground",
+        "description": "操场上进行体育活动的场景，有跑道、草坪和运动器材",
+        "typical_entities": ["学生", "体育教师", "球类"],
+        "typical_events": ["体育课", "体育比赛", "课间操"],
+        "soundscape": ["哨声", "加油声", "跑步声"]
+      }
+    ],
+    "Gate": [
+      {
+        "id": "scene_gate_001",
+        "name": "校门口场景",
+        "category": "Scene",
+        "subcategory": "Gate",
+        "description": "校门口人员进出和车辆通行的场景，有门卫值守",
+        "typical_entities": ["保安", "学生", "家长", "车辆", "校门"],
+        "typical_events": ["进出校园", "接送学生"],
+        "soundscape": ["车流声", "人声"]
+      }
+    ],
+    "Dormitory": [
+      {
+        "id": "scene_dormitory_001",
+        "name": "宿舍场景",
+        "category": "Scene",
+        "subcategory": "Dormitory",
+        "description": "宿舍楼内的生活场景，有宿舍房间和公共走廊",
+        "typical_entities": ["学生", "宿管员", "行李"],
+        "typical_events": ["就寝", "出入宿舍"],
+        "soundscape": ["安静"]
+      }
+    ],
+    "Corridor": [
+      {
+        "id": "scene_corridor_001",
+        "name": "走廊场景",
+        "category": "Scene",
+        "subcategory": "Corridor",
+        "description": "教学楼或宿舍楼走廊的场景，连接各个房间",
+        "typical_entities": ["学生", "教师", "灭火器", "监控摄像头"],
+        "typical_events": ["课间通行", "课间休息"],
+        "soundscape": ["脚步声", "交谈声"]
+      }
+    ],
+    "Parking": [
+      {
+        "id": "scene_parking_001",
+        "name": "停车场场景",
+        "category": "Scene",
+        "subcategory": "Parking",
+        "description": "校园停车场或停车区域的场景",
+        "typical_entities": ["轿车", "电动车", "自行车"],
+        "typical_events": ["停车", "取车"],
+        "soundscape": ["引擎声"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,159 @@
+[2026-06-25 20:00:28] [INFO] videoAI 集成系统启动，模式: verify
+[2026-06-25 20:00:28] [INFO] ============================================================
+[2026-06-25 20:00:28] [INFO]   videoAI 系统环境验证
+[2026-06-25 20:00:28] [INFO] ============================================================
+[2026-06-25 20:00:28] [INFO]   Python 3.13.5 [OK] 
+[2026-06-25 20:00:28] [INFO]   知识库: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_knowledge_base.json [FAIL] 未找到 
+[2026-06-25 20:00:28] [INFO]   测试问答: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_test_qa.json [FAIL] 未找到 
+[2026-06-25 20:00:28] [INFO]   测试视频: [FAIL] 未找到（部分测试需要） 
+[2026-06-25 20:00:30] [INFO]   ultralytics [OK]
+[2026-06-25 20:00:30] [INFO]   opencv-python [OK]
+[2026-06-25 20:00:30] [INFO]   torch [OK]
+[2026-06-25 20:00:33] [INFO]   transformers [OK]
+[2026-06-25 20:00:34] [INFO]   chromadb [OK]
+[2026-06-25 20:00:37] [INFO]   gradio [OK]
+[2026-06-25 20:00:38] [INFO]   openai [OK]
+[2026-06-25 20:00:38] [INFO]   numpy [OK]
+[2026-06-25 20:00:38] [INFO]   Pillow [OK]
+[2026-06-25 20:00:41] [INFO]   sentence-transformers [OK]
+[2026-06-25 20:00:41] [INFO] 
+  总计: 11/14 项通过
+[2026-06-25 20:00:41] [INFO]   未通过项: 数据文件: 知识库, 数据文件: 测试问答, 测试视频
+[2026-06-25 20:00:41] [INFO]   请安装缺失的依赖: pip install -r tests/requirements.txt
+[2026-06-25 20:00:41] [INFO] ============================================================
+[2026-06-25 20:03:39] [INFO] videoAI 集成系统启动，模式: verify
+[2026-06-25 20:03:39] [INFO] ============================================================
+[2026-06-25 20:03:39] [INFO]   videoAI 系统环境验证
+[2026-06-25 20:03:39] [INFO] ============================================================
+[2026-06-25 20:03:39] [INFO]   Python 3.13.5 [OK] 
+[2026-06-25 20:03:39] [INFO]   知识库: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_knowledge_base.json [FAIL] 未找到 
+[2026-06-25 20:03:39] [INFO]   测试问答: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_test_qa.json [FAIL] 未找到 
+[2026-06-25 20:03:39] [INFO]   测试视频: [FAIL] 未找到（部分测试需要） 
+[2026-06-25 20:03:40] [INFO]   ultralytics [OK]
+[2026-06-25 20:03:40] [INFO]   opencv-python [OK]
+[2026-06-25 20:03:40] [INFO]   torch [OK]
+[2026-06-25 20:03:44] [INFO]   transformers [OK]
+[2026-06-25 20:03:44] [INFO]   chromadb [OK]
+[2026-06-25 20:03:47] [INFO]   gradio [OK]
+[2026-06-25 20:03:48] [INFO]   openai [OK]
+[2026-06-25 20:03:48] [INFO]   numpy [OK]
+[2026-06-25 20:03:48] [INFO]   Pillow [OK]
+[2026-06-25 20:03:51] [INFO]   sentence-transformers [OK]
+[2026-06-25 20:03:51] [INFO] 
+  总计: 11/14 项通过
+[2026-06-25 20:03:51] [INFO]   未通过项: 数据文件: 知识库, 数据文件: 测试问答, 测试视频
+[2026-06-25 20:03:51] [INFO]   请安装缺失的依赖: pip install -r tests/requirements.txt
+[2026-06-25 20:03:51] [INFO] ============================================================
+[2026-06-25 20:06:17] [INFO] videoAI 集成系统启动，模式: verify
+[2026-06-25 20:06:17] [INFO] ============================================================
+[2026-06-25 20:06:17] [INFO]   videoAI 系统环境验证
+[2026-06-25 20:06:17] [INFO] ============================================================
+[2026-06-25 20:06:17] [INFO]   Python 3.13.5 [OK] 
+[2026-06-25 20:06:17] [INFO]   知识库: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_knowledge_base.json [FAIL] 未找到 
+[2026-06-25 20:06:17] [INFO]   测试问答: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_test_qa.json [FAIL] 未找到 
+[2026-06-25 20:06:17] [INFO]   测试视频: [FAIL] 未找到（部分测试需要） 
+[2026-06-25 20:06:18] [INFO]   ultralytics [OK]
+[2026-06-25 20:06:18] [INFO]   opencv-python [OK]
+[2026-06-25 20:06:18] [INFO]   torch [OK]
+[2026-06-25 20:06:22] [INFO]   transformers [OK]
+[2026-06-25 20:06:22] [INFO]   chromadb [OK]
+[2026-06-25 20:06:25] [INFO]   gradio [OK]
+[2026-06-25 20:06:26] [INFO]   openai [OK]
+[2026-06-25 20:06:26] [INFO]   numpy [OK]
+[2026-06-25 20:06:26] [INFO]   Pillow [OK]
+[2026-06-25 20:06:29] [INFO]   sentence-transformers [OK]
+[2026-06-25 20:06:29] [INFO] 
+  总计: 11/14 项通过
+[2026-06-25 20:06:29] [INFO]   未通过项: 数据文件: 知识库, 数据文件: 测试问答, 测试视频
+[2026-06-25 20:06:29] [INFO]   请安装缺失的依赖: pip install -r tests/requirements.txt
+[2026-06-25 20:06:29] [INFO] ============================================================
+[2026-06-25 20:06:42] [INFO] videoAI 集成系统启动，模式: verify
+[2026-06-25 20:06:42] [INFO] ============================================================
+[2026-06-25 20:06:42] [INFO]   videoAI 系统环境验证
+[2026-06-25 20:06:42] [INFO] ============================================================
+[2026-06-25 20:06:42] [INFO]   Python 3.13.5 [OK] 
+[2026-06-25 20:06:42] [INFO]   知识库: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_knowledge_base.json [FAIL] 未找到 
+[2026-06-25 20:06:42] [INFO]   测试问答: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_test_qa.json [FAIL] 未找到 
+[2026-06-25 20:06:42] [INFO]   测试视频: [FAIL] 未找到（部分测试需要） 
+[2026-06-25 20:06:43] [INFO]   ultralytics [OK]
+[2026-06-25 20:06:43] [INFO]   opencv-python [OK]
+[2026-06-25 20:06:43] [INFO]   torch [OK]
+[2026-06-25 20:06:47] [INFO]   transformers [OK]
+[2026-06-25 20:06:47] [INFO]   chromadb [OK]
+[2026-06-25 20:06:51] [INFO]   gradio [OK]
+[2026-06-25 20:06:51] [INFO]   openai [OK]
+[2026-06-25 20:06:51] [INFO]   numpy [OK]
+[2026-06-25 20:06:51] [INFO]   Pillow [OK]
+[2026-06-25 20:06:54] [INFO]   sentence-transformers [OK]
+[2026-06-25 20:06:54] [INFO] 
+  总计: 11/14 项通过
+[2026-06-25 20:06:54] [INFO]   未通过项: 数据文件: 知识库, 数据文件: 测试问答, 测试视频
+[2026-06-25 20:06:54] [INFO]   请安装缺失的依赖: pip install -r tests/requirements.txt
+[2026-06-25 20:06:54] [INFO] ============================================================
+[2026-06-25 20:07:07] [INFO] videoAI 集成系统启动，模式: verify
+[2026-06-25 20:07:07] [INFO] ============================================================
+[2026-06-25 20:07:07] [INFO]   videoAI 系统环境验证
+[2026-06-25 20:07:07] [INFO] ============================================================
+[2026-06-25 20:07:07] [INFO]   Python 3.13.5 [OK] 
+[2026-06-25 20:07:07] [INFO]   知识库: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_knowledge_base.json [FAIL] 未找到 
+[2026-06-25 20:07:07] [INFO]   测试问答: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_test_qa.json [FAIL] 未找到 
+[2026-06-25 20:07:07] [INFO]   测试视频: [FAIL] 未找到（部分测试需要） 
+[2026-06-25 20:07:08] [INFO]   ultralytics [OK]
+[2026-06-25 20:07:08] [INFO]   opencv-python [OK]
+[2026-06-25 20:07:08] [INFO]   torch [OK]
+[2026-06-25 20:07:12] [INFO]   transformers [OK]
+[2026-06-25 20:07:12] [INFO]   chromadb [OK]
+[2026-06-25 20:07:16] [INFO]   gradio [OK]
+[2026-06-25 20:07:16] [INFO]   openai [OK]
+[2026-06-25 20:07:16] [INFO]   numpy [OK]
+[2026-06-25 20:07:16] [INFO]   Pillow [OK]
+[2026-06-25 20:07:19] [INFO]   sentence-transformers [OK]
+[2026-06-25 20:07:19] [INFO] 
+  总计: 11/14 项通过
+[2026-06-25 20:07:19] [INFO]   未通过项: 数据文件: 知识库, 数据文件: 测试问答, 测试视频
+[2026-06-25 20:07:19] [INFO]   请安装缺失的依赖: pip install -r tests/requirements.txt
+[2026-06-25 20:07:19] [INFO] ============================================================
+[2026-06-25 20:07:32] [INFO] videoAI 集成系统启动，模式: verify
+[2026-06-25 20:07:32] [INFO] ============================================================
+[2026-06-25 20:07:32] [INFO]   videoAI 系统环境验证
+[2026-06-25 20:07:32] [INFO] ============================================================
+[2026-06-25 20:07:32] [INFO]   Python 3.13.5 [OK] 
+[2026-06-25 20:07:32] [INFO]   知识库: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_knowledge_base.json [OK] 
+[2026-06-25 20:07:32] [INFO]   测试问答: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_test_qa.json [OK] 
+[2026-06-25 20:07:32] [INFO]   测试视频: [OK] 
+[2026-06-25 20:07:34] [INFO]   ultralytics [OK]
+[2026-06-25 20:07:34] [INFO]   opencv-python [OK]
+[2026-06-25 20:07:34] [INFO]   torch [OK]
+[2026-06-25 20:07:37] [INFO]   transformers [OK]
+[2026-06-25 20:07:38] [INFO]   chromadb [OK]
+[2026-06-25 20:07:41] [INFO]   gradio [OK]
+[2026-06-25 20:07:41] [INFO]   openai [OK]
+[2026-06-25 20:07:41] [INFO]   numpy [OK]
+[2026-06-25 20:07:41] [INFO]   Pillow [OK]
+[2026-06-25 20:07:44] [INFO]   sentence-transformers [OK]
+[2026-06-25 20:07:44] [INFO] 
+  总计: 14/14 项通过
+[2026-06-25 20:07:44] [INFO]   环境验证全部通过！
+[2026-06-25 20:07:44] [INFO] ============================================================
+[2026-06-25 20:07:56] [INFO] videoAI 集成系统启动，模式: verify
+[2026-06-25 20:07:56] [INFO] ============================================================
+[2026-06-25 20:07:56] [INFO]   videoAI 系统环境验证
+[2026-06-25 20:07:56] [INFO] ============================================================
+[2026-06-25 20:07:56] [INFO]   Python 3.13.5 [OK] 
+[2026-06-25 20:07:56] [INFO]   知识库: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_knowledge_base.json [OK] 
+[2026-06-25 20:07:56] [INFO]   测试问答: C:\Users\Surgey\Desktop\videoAI-dev\data\data\campus_test_qa.json [OK] 
+[2026-06-25 20:07:56] [INFO]   测试视频: [OK] 
+[2026-06-25 20:07:58] [INFO]   ultralytics [OK]
+[2026-06-25 20:07:58] [INFO]   opencv-python [OK]
+[2026-06-25 20:07:58] [INFO]   torch [OK]
+[2026-06-25 20:08:03] [INFO]   transformers [OK]
+[2026-06-25 20:08:04] [INFO]   chromadb [OK]
+[2026-06-25 20:08:08] [INFO]   gradio [OK]
+[2026-06-25 20:08:08] [INFO]   openai [OK]
+[2026-06-25 20:08:08] [INFO]   numpy [OK]
+[2026-06-25 20:08:08] [INFO]   Pillow [OK]
+[2026-06-25 20:08:11] [INFO]   sentence-transformers [OK]
+[2026-06-25 20:08:11] [INFO] 
+  总计: 14/14 项通过
+[2026-06-25 20:08:11] [INFO]   环境验证全部通过！
+[2026-06-25 20:08:11] [INFO] ============================================================

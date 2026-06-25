@@ -1,0 +1,222 @@
+{
+  "qa_pairs": [
+    {
+      "id": "QA_001",
+      "category": "目标识别",
+      "question": "画面中穿着校服的人员是什么身份？",
+      "expected_answer": "学生",
+      "key_elements": ["校服", "人员"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_002",
+      "category": "目标识别",
+      "question": "站在校门口穿着制服、佩戴对讲机的人是谁？",
+      "expected_answer": "保安",
+      "key_elements": ["制服", "对讲机", "校门口"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_003",
+      "category": "目标识别",
+      "question": "画面中手持教案、站在讲台上的人是什么职业？",
+      "expected_answer": "教师",
+      "key_elements": ["教案", "讲台", "教室"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_004",
+      "category": "目标识别",
+      "question": "画面中出现的黄色大型客车是什么车辆？",
+      "expected_answer": "校车",
+      "key_elements": ["黄色", "大型客车"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_005",
+      "category": "属性查询",
+      "question": "画面中停放在车棚里的两轮车是自行车还是电动车？",
+      "expected_answer": "自行车（如带有脚蹬）或 电动车（如带有电池和充电口）",
+      "key_elements": ["车棚", "两轮车", "脚蹬/电池"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_006",
+      "category": "属性查询",
+      "question": "画面中那个穿红色上衣的学生在做什么？",
+      "expected_answer": "在走路 / 在看书 / 在跑步（根据画面实际动作回答）",
+      "key_elements": ["红色上衣", "学生", "动作"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_007",
+      "category": "属性查询",
+      "question": "图书馆里学生使用的便携式电子设备是什么？",
+      "expected_answer": "笔记本电脑",
+      "key_elements": ["图书馆", "便携", "电子设备"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_008",
+      "category": "属性查询",
+      "question": "画面中走廊墙上挂着的红色罐状物品是什么？",
+      "expected_answer": "灭火器",
+      "key_elements": ["走廊", "红色", "罐状"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_009",
+      "category": "计数统计",
+      "question": "画面中操场上正在跑步的学生大概有多少人？",
+      "expected_answer": "约 5-10 人（具体数量需根据画面统计，此条测试数字识别能力）",
+      "key_elements": ["操场", "跑步", "人数"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_010",
+      "category": "计数统计",
+      "question": "停车场里停了几辆轿车？",
+      "expected_answer": "X 辆（根据画面实际数量回答）",
+      "key_elements": ["停车场", "轿车", "数量"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_011",
+      "category": "计数统计",
+      "question": "食堂打餐窗口前有多少人在排队？",
+      "expected_answer": "X 人（根据画面实际排队人数回答）",
+      "key_elements": ["食堂", "打餐窗口", "排队人数"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_012",
+      "category": "场景理解",
+      "question": "画面中的场景是教学楼、图书馆还是操场？",
+      "expected_answer": "教学楼（依据有无讲台/课桌椅判断）",
+      "key_elements": ["讲台", "课桌椅", "黑板"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_013",
+      "category": "场景理解",
+      "question": "画面中的环境看起来是室内还是室外？具体是哪里？",
+      "expected_answer": "室内，像是在图书馆自习区（依据书架和安静氛围）",
+      "key_elements": ["室内", "书架", "自习桌"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_014",
+      "category": "场景理解",
+      "question": "画面中有跑道和草坪，这是校园的什么地方？",
+      "expected_answer": "操场",
+      "key_elements": ["跑道", "草坪"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_015",
+      "category": "事件行为",
+      "question": "画面中学生们正坐在教室里，老师站在前面，他们在进行什么活动？",
+      "expected_answer": "上课（教学活动）",
+      "key_elements": ["教室", "老师站立", "学生坐"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_016",
+      "category": "事件行为",
+      "question": "画面中学生们正端着餐盘在餐桌前吃饭，这是什么行为？",
+      "expected_answer": "就餐 / 用餐",
+      "key_elements": ["餐盘", "吃饭", "餐桌"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_017",
+      "category": "事件行为",
+      "question": "画面中有人在推搡、拳打脚踢并伴有大声争吵，这是什么事件？",
+      "expected_answer": "打架斗殴（异常安全事件）",
+      "key_elements": ["推搡", "拳打脚踢", "争吵"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_018",
+      "category": "事件行为",
+      "question": "画面中有人正在翻越学校围墙，这属于什么行为？",
+      "expected_answer": "非法闯入 / 违规行为",
+      "key_elements": ["翻越围墙", "非法进入"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_019",
+      "category": "事件行为",
+      "question": "画面中一个学生在走廊里快速奔跑追赶前面的同学，这种行为是否安全？",
+      "expected_answer": "不安全，属于追逐打闹，容易导致摔倒撞伤",
+      "key_elements": ["走廊", "快速奔跑", "追赶"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_020",
+      "category": "规则安全",
+      "question": "在图书馆场景中，学生大声打电话是否违反校规？应该怎么做？",
+      "expected_answer": "违反规则，图书馆应保持安静，需到室外接打电话",
+      "key_elements": ["图书馆", "大声喧哗", "违规"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_021",
+      "category": "规则安全",
+      "question": "校园内全面禁烟，如果在角落发现有人吸烟，正确的处理方式是什么？",
+      "expected_answer": "立即劝阻制止，并报告给保安或老师",
+      "key_elements": ["禁烟", "吸烟", "违规处理"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_022",
+      "category": "规则安全",
+      "question": "宿舍楼实行门禁管理，学生晚上很晚才回来（晚归），会有什么后果？",
+      "expected_answer": "会被宿管记录，可能面临违纪处分或通报批评",
+      "key_elements": ["宿舍门禁", "晚归", "违纪"],
+      "difficulty": "中等"
+    },
+    {
+      "id": "QA_023",
+      "category": "规则安全",
+      "question": "上课铃响了，学生才匆忙跑进教室，这属于什么行为？",
+      "expected_answer": "迟到，违反课堂纪律",
+      "key_elements": ["上课铃", "匆忙跑进", "迟到"],
+      "difficulty": "简单"
+    },
+    {
+      "id": "QA_024",
+      "category": "综合推理",
+      "question": "画面中一个穿着其他学校校服的学生在校园里四处张望且没有老师陪同，可能是什么情况？",
+      "expected_answer": "可能是外校访客或者迷路的学生，存在安全隐患，需要保安上前询问",
+      "key_elements": ["外校校服", "四处张望", "无陪同"],
+      "difficulty": "困难"
+    },
+    {
+      "id": "QA_025",
+      "category": "综合推理",
+      "question": "画面中食堂打餐队伍秩序混乱，有人插队并发生争吵，应该如何应对？",
+      "expected_answer": "食堂工作人员应立即维持秩序，制止插队行为，若矛盾激化需通知保安",
+      "key_elements": ["排队混乱", "插队", "争吵"],
+      "difficulty": "困难"
+    }
+  ],
+  "metadata": {
+    "domain": "校园监控场景",
+    "total_count": 25,
+    "categories": {
+      "目标识别": 4,
+      "属性查询": 4,
+      "计数统计": 3,
+      "场景理解": 3,
+      "事件行为": 5,
+      "规则安全": 4,
+      "综合推理": 2
+    },
+    "difficulty_distribution": {
+      "简单": 10,
+      "中等": 12,
+      "困难": 3
+    }
+  }
+}

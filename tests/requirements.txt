@@ -1,0 +1,30 @@
+# ============================================================
+# videoAI 集成系统 — 统一依赖清单
+# ============================================================
+# 安装方式: pip install -r requirements.txt
+# ============================================================
+
+# --- YOLO 目标检测 ---
+ultralytics>=8.2.0            # YOLOv8 目标检测
+opencv-python>=4.8.0          # 视频帧处理
+Pillow>=10.0.0                # 图像处理
+
+# --- CLIP 特征提取 ---
+torch>=2.0.0                  # PyTorch 深度学习框架
+transformers>=4.30.0          # Hugging Face Transformers (CLIP 模型)
+numpy>=1.24.0,<2.0.0          # 数值计算
+
+# --- 向量数据库 ---
+chromadb>=0.4.24              # Chroma 向量数据库
+sentence-transformers>=2.2.0  # 文本嵌入模型
+
+# --- LLM 问答 ---
+openai>=1.0.0                 # OpenAI API 客户端
+requests>=2.28.0              # HTTP 请求 (Ollama 后端)
+
+# --- Web 界面 ---
+gradio>=4.0.0                 # Gradio Web 界面
+
+# --- 测试与工具 ---
+pytest>=7.0.0                 # 测试框架
+python-dotenv>=1.0.0          # 环境变量管理
