@@ -28,7 +28,9 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 # --- 数据文件 ---
 KNOWLEDGE_BASE_PATH = DATA_DIR / "campus_knowledge_base.json"
 TEST_QA_PATH = DATA_DIR / "campus_test_qa.json"
+
 TEST_VIDEO_PATH = DATA_DIR / "test_video.mp4"
+
 
 # --- 向量数据库 ---
 VECTOR_DB_PATH = os.getenv("VECTOR_DB_PATH", str(OUTPUT_DIR / "vector_db"))
